@@ -6,7 +6,7 @@ WITH daily_usage AS (
     FROM SNOWFLAKE.ACCOUNT_USAGE.WAREHOUSE_METERING_HISTORY
     WHERE start_time >= DATEADD(MONTH, -4, DATE_TRUNC('day', CURRENT_DATE))
     AND start_time < dateadd('day',-1,date_trunc('day',CURRENT_DATE::date))
-     -- AND warehouse_name = 'FINOPS_WH'
+     -- AND warehouse_name = 'FINOPS_WH' -- Test
     GROUP BY 1,2
 )
 SELECT
@@ -15,4 +15,4 @@ SELECT
     AVG(daily_credits) AS avg_daily_credits_per_month
 FROM daily_usage
 GROUP BY warehouse_name, DATE_TRUNC('month', day)
-ORDER BY month;
+ORDER BY month desc;
